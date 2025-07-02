@@ -2,7 +2,7 @@
 <html>
 <head><title>Transaktion bearbeiten</title></head>
 <body>
-    <%- include('partials/header') %>
+    <%- include('../partials/header') %>
   <h1>Transaktion #<%= tx.id %> bearbeiten</h1>
   <% if (error) { %><p style="color:red"><%= error %></p><% } %>
   <form action="/admin/transactions/<%= tx.id %>/edit" method="post">
