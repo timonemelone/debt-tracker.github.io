@@ -3,6 +3,9 @@ const bcrypt  = require('bcrypt');
 const db      = require('../db');
 const router  = express.Router();
 
+// Direkt auf Login weiterleiten, wenn jemand "/" aufruft
+router.get('/', (req, res) => res.redirect('/login'));
+
 router.get('/login', (req, res) => {
   res.render('login', { error: null });
 });
