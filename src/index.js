@@ -24,6 +24,12 @@ app.use(session({
   saveUninitialized: false
 }));
 
+app.use((req, res, next) => {
+  res.locals.userVorname = req.session.userVorname;
+  res.locals.admin       = req.session.admin;
+  next();
+});
+
 // Routes
 app.use('/', authRoutes);
 app.use('/transactions', transactionRoutes);
