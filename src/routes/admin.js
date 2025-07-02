@@ -55,7 +55,7 @@ router.post('/transactions/new', requireAdmin, async (req, res) => {
   }
 });
 
-// Liste aller Transaktionen (neu)
+// Admin: Liste aller Transaktionen mit direkter Fehleranzeige
 router.get('/transactions', requireAdmin, async (req, res) => {
   try {
     const { rows } = await db.query(`
@@ -64,10 +64,12 @@ router.get('/transactions', requireAdmin, async (req, res) => {
       JOIN users u ON t.user_id = u.id
       ORDER BY t.date DESC
     `);
+    // Im Erfolgsfall rendern wir wie gehabt:
     res.render('admin/transactions', { transactions: rows, error: null });
   } catch (err) {
-    console.error('Error loading admin transactions:', err);
-    res.render('admin/transactions', { transactions: [], error: 'Lade-Fehler' });
+    console.error('Admin GET /transactions Error:', err);
+    // Zeige den Stack direkt im Browser:
+    return res.status(500).send(`<h1>500 – Serverfehler</h1><pre>${err.stack}</pre>`);
   }
 });
 
