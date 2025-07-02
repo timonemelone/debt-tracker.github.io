@@ -64,8 +64,15 @@ router.get('/transactions', requireAdmin, async (req, res) => {
       JOIN users u ON t.user_id = u.id
       ORDER BY t.date DESC
     `);
-    // Im Erfolgsfall rendern wir wie gehabt:
-    res.render('admin/transactions', { transactions: rows, error: null });
+        // amount als Zahl umwandeln, damit toFixed klappt
+    const transactions = rows.map(tx => ({
+      id:      tx.id,
+      date:    tx.date,
+      type:    tx.type,
+      vorname: tx.vorname,
+      amount:  parseFloat(tx.amount)
+    }));
+    res.render('admin/transactions', { transactions, error: null });
   } catch (err) {
     console.error('Admin GET /transactions Error:', err);
     // Zeige den Stack direkt im Browser:
