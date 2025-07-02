@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head><title>Alle Transaktionen</title></head>
+<body>
+    <%- include('partials/header') %>
+  <h1>Transaktionen verwalten</h1>
+  <a href="/admin/transactions/new">→ Neue Transaktion</a> |
+  <a href="/admin/logout">Logout</a>
+  <ul>
+    <% transactions.forEach(tx => { %>
+      <li>
+        <strong><%= tx.date %></strong> –
+        <%= tx.vorname %> –
+        <%= tx.type === 'debt' ? 'Schuld' : 'Tilgung' %>:
+        <%= tx.amount.toFixed(2) %> €
+        [<a href="/admin/transactions/<%= tx.id %>/edit">Bearbeiten</a>]
+        <form action="/admin/transactions/<%= tx.id %>/delete"
+              method="post" style="display:inline">
+          <button type="submit"
+                  onclick="return confirm('Wirklich löschen?')">
+            Löschen
+          </button>
+        </form>
+      </li>
+    <% }) %>
+  </ul>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head><title>Transaktion bearbeiten</title></head>
+<body>
+    <%- include('partials/header') %>
+  <h1>Transaktion #<%= tx.id %> bearbeiten</h1>
+  <% if (error) { %><p style="color:red"><%= error %></p><% } %>
+  <form action="/admin/transactions/<%= tx.id %>/edit" method="post">
+    <label>Freund:in
+      <select name="user_id" required>
+        <% users.forEach(u => { %>
+          <option value="<%= u.id %>"
+            <%= u.id === tx.user_id ? 'selected' : '' %>>
+            <%= u.vorname %>
+          </option>
+        <% }) %>
+      </select>
+    </label><br>
+
+    <label>Typ
+      <label><input type="radio" name="type" value="debt"
+        <%= tx.type==='debt' ? 'checked' : '' %>/> Schuld</label>
+      <label><input type="radio" name="type" value="repayment"
+        <%= tx.type==='repayment' ? 'checked' : '' %>/> Tilgung</label>
+    </label><br>
+
+    <label>Betrag
+      <input type="number" name="amount" step="0.01"
+             value="<%= tx.amount %>" required/>
+    </label><br>
+
+    <label>Datum
+      <input type="date" name="date"
+             value="<%= tx.date %>" required/>
+    </label><br>
+
+    <button type="submit">Speichern</button>
+    <a href="/admin/transactions">Abbrechen</a>
+  </form>
+</body>
+</html>

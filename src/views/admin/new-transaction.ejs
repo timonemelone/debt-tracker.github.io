@@ -2,6 +2,7 @@
 <html>
 <head><title>Neue Transaktion</title></head>
 <body>
+  <%- include('partials/header') %>
   <% if (error) { %><p><%= error %></p><% } %>
   <form action="/admin/transactions/new" method="post">
     <select name="user_id" required>

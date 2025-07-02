@@ -2,6 +2,7 @@
 <html>
 <head><title>Verlauf</title></head>
 <body>
+  <%- include('partials/header') %>
   <% if (error) { %><p><%= error %></p><% } %>
   <ul>
     <% transactions.forEach(tx => { %>

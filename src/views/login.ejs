@@ -2,6 +2,7 @@
 <html>
 <head><title>Login</title></head>
 <body>
+  <%- include('partials/header') %>
   <% if (error) { %><p><%= error %></p><% } %>
   <form action="/login" method="post">
     <input name="vorname"    placeholder="Vorname" required />
