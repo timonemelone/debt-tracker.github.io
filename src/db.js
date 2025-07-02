@@ -29,4 +29,4 @@ db.serialize(() => {
   `);
 });
 
-module.exports = db;b;
+module.exports = db;
