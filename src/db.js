@@ -7,6 +7,7 @@ const dataDir = path.join(process.cwd(), 'data');
 if (!fs.existsSync(dataDir)) {
   fs.mkdirSync(dataDir, { recursive: true });
   console.log('✔️  data-Verzeichnis angelegt');
+}
 
 // Pfad zur Datenbank-Datei (unter /data)
 const dbPath = path.join(dataDir, 'db.sqlite');
