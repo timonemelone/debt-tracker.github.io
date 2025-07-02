@@ -19,7 +19,7 @@ app.use('/css', express.static(path.join(__dirname, 'public/css')));
 
 // Session
 app.use(session({
-  secret: process.env.SESSION_SECRET,
+  secret: process.env.SESSION_SECRET || 'fallback-secret-key',
   resave: false,
   saveUninitialized: false
 }));
