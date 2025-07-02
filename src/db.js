@@ -40,6 +40,39 @@ db.serialize(() => {
       created_at  TEXT DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY(user_id) REFERENCES users(id)
     );
+    
+    const bcrypt = require('bcrypt');
+
+// PIN für Emily aus ENV oder Default
+const DEFAULT_PIN = process.env.DEFAULT_PIN || '1234';
+db.get(
+  "SELECT id FROM users WHERE vorname = 'Emily'",
+  (err, row) => {
+    if (err) {
+      console.error('Seed-Check fehlgeschlagen:', err);
+      return;
+    }
+    if (!row) {
+      // Nur anlegen, wenn es Emily noch nicht gibt
+      bcrypt.hash(DEFAULT_PIN, 10, (err, hash) => {
+        if (err) {
+          console.error('Hashing-Fehler beim Seeden:', err);
+          return;
+        }
+        db.run(
+          'INSERT INTO users(vorname, pin_hash) VALUES(?,?)',
+          ['Emily', hash],
+          err => {
+            if (err) console.error('Seed-Insert fehlgeschlagen:', err);
+            else console.log(`✅ Seed: Emily angelegt (PIN=${DEFAULT_PIN})`);
+          }
+        );
+      });
+    } else {
+      console.log('✅ Seed: Emily existiert bereits');
+    }
+  }
+);
   `);
 });
 
