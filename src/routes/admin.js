@@ -84,25 +84,20 @@ router.get('/transactions', requireAdmin, async (req, res) => {
 router.get('/transactions/:id/edit', requireAdmin, async (req, res) => {
   try {
     const id = req.params.id;
-
-    // 1) Hole die Daten der Transaktion
     const { rows } = await db.query(
       'SELECT * FROM transactions WHERE id = $1',
       [id]
     );
     const tx = rows[0];
-
-    // 2) Lade alle Nutzer für das Dropdown
-    const usersRes = await db.query(
+    const { rows: users } = await db.query(
       'SELECT id, vorname FROM users ORDER BY vorname'
     );
-    const users = usersRes.rows;
-
-    // 3) Rendern
     res.render('admin/edit-transaction', { tx, users, error: null });
   } catch (err) {
-    console.error('Edit-GET Error:', err);
-    res.redirect('/admin/transactions');
+    console.error('Admin GET /transactions/:id/edit Error:', err);
+    return res
+      .status(500)
+      .send(`<h1>500 – Edit-Form Error</h1><pre>${err.stack}</pre>`);
   }
 });
 
