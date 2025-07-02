@@ -3,7 +3,7 @@ const sqlite3 = require('sqlite3').verbose();
 const path    = require('path');
 const bcrypt  = require('bcrypt');
 
-const dataDir = path.join(__dirname, '..', 'data');
+const dataDir = path.join(process.cwd(), 'data');
 if (!fs.existsSync(dataDir)) {
   fs.mkdirSync(dataDir, { recursive: true });
   console.log('✔️  data-Verzeichnis angelegt');
