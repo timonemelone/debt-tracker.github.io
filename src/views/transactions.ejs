@@ -3,7 +3,7 @@
 <head><title>Verlauf</title></head>
 <body>
   <%- include('partials/header') %>
-  <% if (error) { %><p><%= error %></p><% } %>
+  <% if (typeof error !== 'undefined' && error) { %><p><%= error %></p><% } %>
   <ul>
     <% transactions.forEach(tx => { %>
       <li style="color:<%= tx.type==='debt'?'red':'green' %>;">
