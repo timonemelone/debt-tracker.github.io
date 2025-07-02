@@ -28,83 +28,95 @@ router.get('/transactions/new', requireAdmin, (req, res) => {
     if (err) throw err;
     res.render('admin/new-transaction', { users, error: null });
   });
+})
+
+router.post('/transactions/new', requireAdmin, async (req, res) => {
+  try {
+    const { user_id, type, amount, date } = req.body;
+    await db.query(
+      `INSERT INTO transactions(user_id, type, amount, date)
+       VALUES($1, $2, $3, $4)`,
+      [user_id, type, amount, date]
+    );
+    res.redirect('/admin/transactions');
+  } catch (err) {
+    console.error(err);
+    const { rows: users } = await db.query('SELECT id, vorname FROM users');
+    res.render('admin/new-transaction', { users, error: 'Speicher-Fehler' });
+  }
 });
 
-router.post('/transactions/new', requireAdmin, (req, res) => {
-  const { user_id, type, amount, date } = req.body;
-  db.run(
-    'INSERT INTO transactions (user_id, type, amount, date) VALUES (?, ?, ?, ?)',
-    [user_id, type, amount, date],
-    err => {
-      if (err) {
-        console.error(err);
-        return res.render('admin/new-transaction', { users: [], error: 'Fehler beim Speichern' });
-      }
-      res.redirect('/admin/transactions/new');
-    }
-  );
-});
-
-// -------------------------------------------------
-// 1) Liste aller Transaktionen mit Edit/Delete-Links
-router.get('/transactions', requireAdmin, (req, res) => {
-  db.all(
-    `SELECT t.id, t.date, t.type, t.amount, u.vorname
-     FROM transactions t
-     JOIN users u ON t.user_id = u.id
-     ORDER BY t.date DESC`,
-    [],
-    (err, rows) => {
-      if (err) throw err;
-      res.render('admin/transactions', { transactions: rows });
-    }
-  );
+router.get('/transactions', requireAdmin, async (req, res) => {
+  try {
+    const { rows } = await db.query(`
+      SELECT t.id, t.date, t.type, t.amount, u.vorname
+      FROM transactions t
+      JOIN users u ON t.user_id = u.id
+      ORDER BY t.date DESC
+    `);
+    res.render('admin/transactions', { transactions: rows });
+  } catch (err) {
+    console.error(err);
+    res.render('admin/transactions', { transactions: [], error: 'Lade-Fehler' });
+  }
 });
 
 // 2) Bearbeitungs-Formular anzeigen
-router.get('/transactions/:id/edit', requireAdmin, (req, res) => {
-  const id = req.params.id;
-  db.get(
-    'SELECT * FROM transactions WHERE id = ?',
-    [id],
-    (err, tx) => {
-      if (err) throw err;
-      db.all('SELECT id, vorname FROM users', [], (err, users) => {
-        if (err) throw err;
-        res.render('admin/edit-transaction', {
-          tx,
-          users,
-          error: null
-        });
-      });
-    }
-  );
+router.get('/transactions/:id/edit', requireAdmin, async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    // 1) Hole die Daten der Transaktion
+    const { rows } = await db.query(
+      'SELECT * FROM transactions WHERE id = $1',
+      [id]
+    );
+    const tx = rows[0];
+
+    // 2) Lade alle Nutzer für das Dropdown
+    const usersRes = await db.query(
+      'SELECT id, vorname FROM users ORDER BY vorname'
+    );
+    const users = usersRes.rows;
+
+    // 3) Rendern
+    res.render('admin/edit-transaction', { tx, users, error: null });
+  } catch (err) {
+    console.error('Edit-GET Error:', err);
+    res.redirect('/admin/transactions');
+  }
 });
 
 // 3) Bearbeitung speichern
-router.post('/transactions/:id/edit', requireAdmin, (req, res) => {
-  const { user_id, type, amount, date } = req.body;
+router.post('/transactions/:id/edit', requireAdmin, async (req, res) => {
   const id = req.params.id;
-  db.run(
-    `UPDATE transactions
-       SET user_id = ?, type = ?, amount = ?, date = ?
-     WHERE id = ?`,
-    [user_id, type, amount, date, id],
-    (err) => {
-      if (err) {
-        console.error(err);
-        // Bei Fehlern das Formular nochmal mit Fehlermeldung zeigen
-        return db.all('SELECT id, vorname FROM users', [], (e, users) => {
-          res.render('admin/edit-transaction', {
-            tx: { id, user_id, type, amount, date },
-            users,
-            error: 'Fehler beim Speichern'
-          });
-        });
-      }
-      res.redirect('/admin/transactions');
-    }
-  );
+  const { user_id, type, amount, date } = req.body;
+
+  try {
+    // 1) Update durchführen
+    await db.query(
+      `UPDATE transactions
+         SET user_id = $1,
+             type    = $2,
+             amount  = $3,
+             date    = $4
+       WHERE id = $5`,
+      [user_id, type, amount, date, id]
+    );
+    // 2) Zurück zur Liste
+    res.redirect('/admin/transactions');
+  } catch (err) {
+    console.error('Edit-POST Error:', err);
+    // 3) Bei Fehlern das Formular nochmal zeigen
+    const usersRes = await db.query(
+      'SELECT id, vorname FROM users ORDER BY vorname'
+    );
+    res.render('admin/edit-transaction', {
+      tx: { id, user_id, type, amount, date },
+      users: usersRes.rows,
+      error: 'Fehler beim Speichern'
+    });
+  }
 });
 
 // 4) Transaktion löschen
