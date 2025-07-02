@@ -23,12 +23,21 @@ router.post('/login', (req, res) => {
   res.render('admin/login', { error: 'Ungültige Zugangsdaten' });
 });
 
-router.get('/transactions/new', requireAdmin, (req, res) => {
-  db.all('SELECT id, vorname FROM users', [], (err, users) => {
-    if (err) throw err;
+// Formular für neue Transaktion (neu)
+router.get('/transactions/new', requireAdmin, async (req, res) => {
+  try {
+    // 1) Alle Nutzer aus Postgres holen
+    const { rows: users } = await db.query(
+      'SELECT id, vorname FROM users ORDER BY vorname',
+      []
+    );
+    // 2) Rendern
     res.render('admin/new-transaction', { users, error: null });
-  });
-})
+  } catch (err) {
+    console.error('Fehler beim Laden des New-Transaction-Formulars:', err);
+    res.render('admin/new-transaction', { users: [], error: 'Datenbankfehler' });
+  }
+});
 
 router.post('/transactions/new', requireAdmin, async (req, res) => {
   try {
