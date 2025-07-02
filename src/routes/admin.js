@@ -1,5 +1,5 @@
 const express = require('express');
-const db      = require('../db').query;
+const db      = require('../db');
 const router  = express.Router();
 
 function requireAdmin(req, res, next) {
