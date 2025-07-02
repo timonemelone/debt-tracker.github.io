@@ -55,6 +55,7 @@ router.post('/transactions/new', requireAdmin, async (req, res) => {
   }
 });
 
+// Liste aller Transaktionen (neu)
 router.get('/transactions', requireAdmin, async (req, res) => {
   try {
     const { rows } = await db.query(`
@@ -63,9 +64,9 @@ router.get('/transactions', requireAdmin, async (req, res) => {
       JOIN users u ON t.user_id = u.id
       ORDER BY t.date DESC
     `);
-    res.render('admin/transactions', { transactions: rows });
+    res.render('admin/transactions', { transactions: rows, error: null });
   } catch (err) {
-    console.error(err);
+    console.error('Error loading admin transactions:', err);
     res.render('admin/transactions', { transactions: [], error: 'Lade-Fehler' });
   }
 });
