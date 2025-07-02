@@ -8,13 +8,20 @@ function ensureLoggedIn(req, res, next) {
   next();
 }
 
+// Transaktionsverlauf anzeigen (Postgres + parseFloat)
 router.get('/', ensureLoggedIn, async (req, res) => {
   try {
-    const result = await db.query(
+    const { rows } = await db.query(
       'SELECT date, type, amount FROM transactions WHERE user_id = $1 ORDER BY date DESC',
       [req.session.userId]
     );
-    res.render('transactions', { transactions: result.rows });
+    // amount vom String in Zahl wandeln
+    const transactions = rows.map(tx => ({
+      date:   tx.date,
+      type:   tx.type,
+      amount: parseFloat(tx.amount)
+    }));
+    res.render('transactions', { transactions });
   } catch (err) {
     console.error('Fehler beim Laden der Transaktionen:', err);
     res.render('transactions', { transactions: [], error: 'Datenbankfehler' });

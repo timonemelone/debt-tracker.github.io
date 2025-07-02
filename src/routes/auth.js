@@ -44,20 +44,22 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// Balance anzeigen (Postgres + parseFloat)
 router.get('/balance', async (req, res) => {
   if (!req.session.userId) return res.redirect('/login');
   try {
-    const result = await db.query(
+    const { rows } = await db.query(
       'SELECT type, amount FROM transactions WHERE user_id = $1',
       [req.session.userId]
     );
     let balance = 0;
-    result.rows.forEach(tx => {
-      balance += tx.type === 'debt' ? tx.amount : -tx.amount;
+    rows.forEach(tx => {
+      const amt = parseFloat(tx.amount);            // String → Zahl
+      balance += tx.type === 'debt' ? amt : -amt;
     });
     res.render('balance', { balance });
   } catch (err) {
-    console.error(err);
+    console.error('Error in GET /balance:', err);
     res.render('balance', { balance: 0, error: 'Serverfehler' });
   }
 });
