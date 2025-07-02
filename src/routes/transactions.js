@@ -1,5 +1,5 @@
 const express = require('express');
-const db      = require('../db');
+const db      = require('../db').query;
 const router  = express.Router();
 
 // Middleware: nur eingeloggte Nutzer
@@ -8,19 +8,17 @@ function ensureLoggedIn(req, res, next) {
   next();
 }
 
-// GET /transactions → Liste anzeigen
-router.get('/', ensureLoggedIn, (req, res) => {
-  db.all(
-    'SELECT date, type, amount FROM transactions WHERE user_id = ? ORDER BY date DESC',
-    [req.session.userId],
-    (err, rows) => {
-      if (err) {
-        console.error(err);
-        return res.render('transactions', { transactions: [], error: 'Datenbankfehler' });
-      }
-      res.render('transactions', { transactions: rows, error: null });
-    }
-  );
+router.get('/', ensureLoggedIn, async (req, res) => {
+  try {
+    const result = await db.query(
+      'SELECT date, type, amount FROM transactions WHERE user_id = $1 ORDER BY date DESC',
+      [req.session.userId]
+    );
+    res.render('transactions', { transactions: result.rows });
+  } catch (err) {
+    console.error('Fehler beim Laden der Transaktionen:', err);
+    res.render('transactions', { transactions: [], error: 'Datenbankfehler' });
+  }
 });
 
 module.exports = router;
