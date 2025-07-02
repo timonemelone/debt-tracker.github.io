@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head><title>Login</title></head>
+<body>
+  <% if (error) { %><p><%= error %></p><% } %>
+  <form action="/login" method="post">
+    <input name="vorname"    placeholder="Vorname" required />
+    <input name="pin" type="password" placeholder="4-stelliger PIN" required maxlength="4" />
+    <button type="submit">Einloggen</button>
+  </form>
+</body>
+</html>

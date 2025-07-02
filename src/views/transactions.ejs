@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head><title>Verlauf</title></head>
+<body>
+  <ul>
+    <% transactions.forEach(tx => { %>
+      <li style="color:<%= tx.type==='debt'?'red':'green' %>;">
+        <%= tx.date %> – <%= tx.type==='debt'?'+':'–' %><%= tx.amount.toFixed(2) %> €
+      </li>
+    <% }) %>
+  </ul>
+</body>
+</html>

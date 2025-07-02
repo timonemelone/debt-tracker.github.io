@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head><title>Neue Transaktion</title></head>
+<body>
+  <% if (error) { %><p><%= error %></p><% } %>
+  <form action="/admin/transactions/new" method="post">
+    <select name="user_id" required>
+      <% users.forEach(u => { %>
+        <option value="<%= u.id %>"><%= u.vorname %></option>
+      <% }) %>
+    </select>
+    <div>
+      <label><input type="radio" name="type" value="debt" checked /> Schuld</label>
+      <label><input type="radio" name="type" value="repayment" /> Tilgung</label>
+    </div>
+    <input name="amount" type="number" step="0.01" placeholder="Betrag" required />
+    <input name="date"   type="date" required />
+    <button type="submit">Speichern</button>
+  </form>
+</body>
+</html>

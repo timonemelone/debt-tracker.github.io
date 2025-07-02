@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head><title>Admin Login</title></head>
+<body>
+  <% if (error) { %><p><%= error %></p><% } %>
+  <form action="/admin/login" method="post">
+    <input name="username" placeholder="Admin-Benutzer" required />
+    <input name="password" type="password" placeholder="Passwort" required />
+    <button type="submit">Login</button>
+  </form>
+</body>
+</html>
