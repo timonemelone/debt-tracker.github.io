@@ -1,3 +1,5 @@
 node_modules/
-data/
 .env
+
+# Nur die DB-Datei ignorieren, data-Ordner aber behalten
+data/*.sqlite
