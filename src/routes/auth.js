@@ -3,6 +3,11 @@ const bcrypt  = require('bcrypt');
 const db      = require('../db');
 const router  = express.Router();
 
+// Logout
+router.get('/logout', (req, res) => {
+  req.session.destroy(() => res.redirect('/login'));
+});
+
 // Direkt auf Login weiterleiten, wenn jemand "/" aufruft
 router.get('/', (req, res) => res.redirect('/login'));
 
@@ -41,19 +46,6 @@ router.get('/balance', (req, res) => {
         tx.type === 'debt' ? (balance += tx.amount) : (balance -= tx.amount);
       });
       res.render('balance', { balance });
-    }
-  );
-});
-
-router.get('/transactions', (req, res) => {
-  if (!req.session.userId) return res.redirect('/login');
-
-  db.all(
-    'SELECT date, type, amount FROM transactions WHERE user_id = ? ORDER BY date DESC',
-    [req.session.userId],
-    (err, rows) => {
-      if (err) throw err;
-      res.render('transactions', { transactions: rows });
     }
   );
 });

@@ -2,6 +2,7 @@
 <html>
 <head><title>Verlauf</title></head>
 <body>
+  <% if (error) { %><p><%= error %></p><% } %>
   <ul>
     <% transactions.forEach(tx => { %>
       <li style="color:<%= tx.type==='debt'?'red':'green' %>;">
@@ -9,5 +10,6 @@
       </li>
     <% }) %>
   </ul>
+  <a href="/logout">Logout</a>
 </body>
 </html>

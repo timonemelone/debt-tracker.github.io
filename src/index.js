@@ -6,7 +6,7 @@ const db      = require('./db');
 
 // Routen importieren
 const authRoutes  = require('./routes/auth');
-const txRoutes    = require('./routes/transactions');        // Achtung: hier korrigieren wir gleich auf './routes/transactions'
+const transactionRoutes    = require('./routes/transactions');        // Achtung: hier korrigieren wir gleich auf './routes/transactions'
 const adminRoutes = require('./routes/admin');
 
 const app = express();
@@ -26,7 +26,7 @@ app.use(session({
 
 // Routes
 app.use('/', authRoutes);
-app.use('/transactions', txRoutes);
+app.use('/transactions', transactionRoutes);
 app.use('/admin', adminRoutes);
 
 // Server starten
