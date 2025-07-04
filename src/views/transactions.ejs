@@ -7,13 +7,13 @@
     <% if (typeof error !== 'undefined' && error) { %>
       <p class="text-center text-red-600"><%= error %></p>
     <% } %>
-    <ul class="space-y-2">
+    <ul class="space-y-4">
       <% transactions.forEach(tx => { %>
-        <li class="flex justify-between">
-          <span><%= tx.date %></span>
-          <span class="<%= tx.type==='debt'?'text-red-600':'text-green-600' %>">
-            <%= tx.type==='debt'?'+':'–' %><%= tx.amount.toFixed(2) %> €
-          </span>
+        <li class="rounded p-4 shadow <%= tx.type==='debt'?'bg-red-50':'bg-green-50' %>">
+          <div class="text-2xl font-bold <%= tx.type==='debt'?'text-red-600':'text-green-600' %>">
+            <%= tx.type==='debt'?'-':'+' %><%= tx.amount.toFixed(2) %> €
+          </div>
+          <div class="text-sm text-gray-600"><%= tx.date %></div>
         </li>
       <% }) %>
     </ul>
