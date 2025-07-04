@@ -6,7 +6,7 @@ const db      = require('./db');
 
 // Routen importieren
 const authRoutes  = require('./routes/auth');
-const transactionRoutes    = require('./routes/transactions');        // Achtung: hier korrigieren wir gleich auf './routes/transactions'
+const transactionRoutes    = require('./routes/transactions');        // Routen für Nutzer-Transaktionen
 const adminRoutes = require('./routes/admin');
 
 const app = express();
