@@ -3,26 +3,31 @@
 <%- include('../partials/head') %>
 <body class="bg-gray-50 text-gray-800">
   <%- include('../partials/header') %>
-  <h1>Transaktionen verwalten</h1>
-  <a href="/admin/transactions/new">→ Neue Transaktion</a> |
-  <a href="/admin/logout">Logout</a>
-  <ul>
-    <% transactions.forEach(tx => { %>
-      <li>
-        <strong><%= tx.date %></strong> –
-        <%= tx.vorname %> –
-        <%= tx.type === 'debt' ? 'Schuld' : 'Tilgung' %>:
-        <%= tx.amount.toFixed(2) %> €
-        [<a href="/admin/transactions/<%= tx.id %>/edit">Bearbeiten</a>]
-        <form action="/admin/transactions/<%= tx.id %>/delete"
-              method="post" style="display:inline">
-          <button type="submit"
-                  onclick="return confirm('Wirklich löschen?')">
-            Löschen
-          </button>
-        </form>
-      </li>
-    <% }) %>
-  </ul>
+  <div class="max-w-2xl mx-auto mt-10 space-y-6">
+    <div class="flex justify-between">
+      <h1 class="text-xl font-semibold">Transaktionen verwalten</h1>
+      <a href="/admin/transactions/new" class="text-blue-600 underline">Neue Transaktion</a>
+    </div>
+    <ul class="space-y-2">
+      <% transactions.forEach(tx => { %>
+        <li class="flex items-center justify-between">
+          <div>
+            <strong><%= tx.date %></strong> – <%= tx.vorname %> –
+            <%= tx.type === 'debt' ? 'Schuld' : 'Tilgung' %>:
+            <%= tx.amount.toFixed(2) %> €
+          </div>
+          <div class="flex items-center space-x-2">
+            <a href="/admin/transactions/<%= tx.id %>/edit" class="text-blue-600 underline">Bearbeiten</a>
+            <form action="/admin/transactions/<%= tx.id %>/delete" method="post">
+              <button type="submit" onclick="return confirm('Wirklich löschen?')" class="text-red-600 hover:text-red-800">
+                Löschen
+              </button>
+            </form>
+          </div>
+        </li>
+      <% }) %>
+    </ul>
+    <a href="/admin/logout" class="block text-center text-blue-600 underline">Logout</a>
+  </div>
 </body>
 </html>

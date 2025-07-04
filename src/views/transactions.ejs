@@ -3,14 +3,24 @@
 <%- include('partials/head') %>
 <body class="bg-gray-50 text-gray-800">
   <%- include('partials/header') %>
-  <% if (typeof error !== 'undefined' && error) { %><p><%= error %></p><% } %>
-  <ul>
-    <% transactions.forEach(tx => { %>
-      <li style="color:<%= tx.type==='debt'?'red':'green' %>;">
-        <%= tx.date %> – <%= tx.type==='debt'?'+':'–' %><%= tx.amount.toFixed(2) %> €
-      </li>
-    <% }) %>
-  </ul>
-  <a href="/logout">Logout</a>
+  <div class="max-w-md mx-auto mt-10 space-y-6">
+    <% if (typeof error !== 'undefined' && error) { %>
+      <p class="text-center text-red-600"><%= error %></p>
+    <% } %>
+    <ul class="space-y-4">
+      <% transactions.forEach(tx => { %>
+        <li class="rounded p-4 shadow <%= tx.type==='debt'?'bg-red-50':'bg-green-50' %>">
+          <div class="text-2xl font-bold <%= tx.type==='debt'?'text-red-600':'text-green-600' %>">
+            <%= tx.type==='debt'?'-':'+' %><%= tx.amount.toFixed(2) %> €
+          </div>
+          <div class="text-sm text-gray-600"><%= tx.date %></div>
+        </li>
+      <% }) %>
+    </ul>
+    <div class="mt-6 flex justify-between">
+      <a href="/balance" class="nav-link flex-1 text-center">Zurück</a>
+      <a href="/logout" class="nav-link flex-1 text-center text-red-600 hover:text-red-800">Logout</a>
+    </div>
+  </div>
 </body>
 </html>
