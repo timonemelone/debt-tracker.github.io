@@ -2,7 +2,6 @@
 <html lang="de">
 <%- include('partials/head') %>
 <body>
-  <%- include('partials/header') %>
   <div class="container">
     <div class="form-box">
       <% if (error) { %>
@@ -11,7 +10,7 @@
       <form action="/login" method="post">
         <input
           name="vorname"
-          placeholder="Vorname"
+          placeholder="User"
           required
         />
         <input
