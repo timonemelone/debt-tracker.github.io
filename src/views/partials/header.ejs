@@ -1,5 +1,5 @@
 <nav class="bg-white shadow p-4 mb-6">
-  <div class="max-w-2xl mx-auto flex space-x-4">
+  <div class="max-w-2xl mx-auto flex flex-wrap justify-center space-x-4">
     <!-- Home -->
     <a href="/" class="hover:underline">
       Home
@@ -23,7 +23,7 @@
 
     <!-- Logout nur anzeigen, wenn jemand eingeloggt ist -->
     <% if (userVorname || admin) { %>
-      <a href="/logout" class="ml-auto text-red-600 hover:text-red-800">
+      <a href="/logout" class="text-red-600 hover:text-red-800">
         Logout
       </a>
     <% } %>
