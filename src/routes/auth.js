@@ -25,13 +25,13 @@ router.post('/login', async (req, res) => {
     );
     const user = result.rows[0];
     if (!user) {
-      return res.render('login', { error: 'Unbekannter Benutzer' });
+      return res.render('login', { title: 'Login', error: 'Unbekannter Benutzer' });
     }
 
     // 2) PIN prüfen
     const valid = await bcrypt.compare(pin, user.pin_hash);
     if (!valid) {
-      return res.render('login', { error: 'Falscher PIN' });
+      return res.render('login', { title: 'Login', error: 'Falscher PIN' });
     }
 
     // 3) Session setzen & weiterleiten
@@ -40,7 +40,7 @@ router.post('/login', async (req, res) => {
     res.redirect('/balance');
   } catch (err) {
     console.error(err);
-    res.render('login', { error: 'Serverfehler' });
+    res.render('login', { title: 'Login', error: 'Serverfehler' });
   }
 });
 
@@ -57,10 +57,10 @@ router.get('/balance', async (req, res) => {
       const amt = parseFloat(tx.amount);            // String → Zahl
       balance += tx.type === 'debt' ? amt : -amt;
     });
-    res.render('balance', { balance });
+    res.render('balance', { title: 'Login', balance });
   } catch (err) {
     console.error('Error in GET /balance:', err);
-    res.render('balance', { balance: 0, error: 'Serverfehler' });
+    res.render('balance', { title: 'Login', balance: 0, error: 'Serverfehler' });
   }
 });
 

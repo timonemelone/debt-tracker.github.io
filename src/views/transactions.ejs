@@ -2,7 +2,7 @@
 <html lang="de">
 <%- include('partials/head') %>
 <body class="bg-gray-50 text-gray-800">
-  <%- include('../partials/header') %>
+  <%- include('partials/header') %>
   <% if (typeof error !== 'undefined' && error) { %><p><%= error %></p><% } %>
   <ul>
     <% transactions.forEach(tx => { %>
