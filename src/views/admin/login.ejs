@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
-<head><title>Admin Login</title></head>
-<body>
+<html lang="de">
+<%- include('partials/head') %>
+<body class="bg-gray-50 text-gray-800">
+  <%- include('../partials/header') %>
   <% if (error) { %><p><%= error %></p><% } %>
   <form action="/admin/login" method="post">
     <input name="username" placeholder="Admin-Benutzer" required />

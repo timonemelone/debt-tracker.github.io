@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
-<head><title>Login</title></head>
-<body>
-  <%- include('partials/header') %>
+<html lang="de">
+<%- include('partials/head') %>
+<body class="bg-gray-50 text-gray-800">
+  <%- include('../partials/header') %>
   <% if (error) { %><p><%= error %></p><% } %>
   <form action="/login" method="post">
     <input name="vorname"    placeholder="Vorname" required />
