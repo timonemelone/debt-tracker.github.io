@@ -51,7 +51,7 @@ router.post('/transactions/new', requireAdmin, async (req, res) => {
   } catch (err) {
     console.error(err);
     const { rows: users } = await db.query('SELECT id, vorname FROM users');
-    res.render('admin/new-transaction', { title: 'Login', users, error: 'Speicher-Fehler' });
+    res.render('admin/new-transaction', { title: 'Login', users, error: 'Speicherfehler' });
   }
 });
 
