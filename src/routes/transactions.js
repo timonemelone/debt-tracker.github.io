@@ -16,8 +16,12 @@ router.get('/', ensureLoggedIn, async (req, res) => {
       [req.session.userId]
     );
     const transactions = rows.map(tx => ({
-      date:   tx.date,
-      type:   tx.type,
+      date: new Date(tx.date).toLocaleString('de-DE', {
+        dateStyle: 'short',
+        timeStyle: 'short',
+        timeZone: 'Europe/Berlin'
+      }),
+      type: tx.type,
       amount: parseFloat(tx.amount)
     }));
     res.render('transactions', { title: 'Login', transactions, error: null });

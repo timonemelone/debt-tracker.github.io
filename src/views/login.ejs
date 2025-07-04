@@ -1,13 +1,33 @@
 <!DOCTYPE html>
 <html lang="de">
 <%- include('partials/head') %>
-<body class="bg-gray-50 text-gray-800">
+<body>
   <%- include('partials/header') %>
-  <% if (error) { %><p><%= error %></p><% } %>
-  <form action="/login" method="post">
-    <input name="vorname"    placeholder="Vorname" required />
-    <input name="pin" type="password" placeholder="4-stelliger PIN" required maxlength="4" />
-    <button type="submit">Einloggen</button>
-  </form>
+  <div class="container">
+    <div class="form-box">
+      <% if (error) { %>
+        <p class="mb-4" style="color:#E63946;"><%= error %></p>
+      <% } %>
+      <form action="/login" method="post">
+        <input
+          name="vorname"
+          placeholder="Vorname"
+          required
+        />
+        <input
+          name="pin"
+          type="password"
+          placeholder="4-stelliger PIN"
+          required
+          maxlength="4"
+        />
+        <button
+          type="submit"
+        >
+          Einloggen
+        </button>
+      </form>
+    </div>
+  </div>
 </body>
 </html>

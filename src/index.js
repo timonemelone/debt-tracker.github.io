@@ -17,6 +17,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.locals.basedir = app.get('views');
 app.use(express.urlencoded({ extended: true }));
 app.use('/css', express.static(path.join(__dirname, 'public/css')));
+app.use('/img', express.static(path.join(__dirname, 'public/img')));
 
 // Session
 app.use(session({

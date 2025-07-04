@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html lang="de">
 <%- include('partials/head') %>
-<body class="bg-gray-50 text-gray-800">
+<body>
   <%- include('partials/header') %>
-  <% if (typeof error !== 'undefined' && error) { %><p><%= error %></p><% } %>
-  <ul>
-    <% transactions.forEach(tx => { %>
-      <li style="color:<%= tx.type==='debt'?'red':'green' %>;">
-        <%= tx.date %> – <%= tx.type==='debt'?'+':'–' %><%= tx.amount.toFixed(2) %> €
-      </li>
-    <% }) %>
-  </ul>
-  <a href="/logout">Logout</a>
+  <div class="container" style="margin-top:40px;">
+    <% if (typeof error !== 'undefined' && error) { %>
+      <p style="color:#E63946;"><%= error %></p>
+    <% } %>
+    <ul style="list-style:none; padding:0;">
+      <% transactions.forEach(tx => { %>
+        <li class="tx <%= tx.type==='debt'?'debt':'repayment' %>">
+          <div class="amount"><%= tx.type==='debt'?'-':'+' %><%= tx.amount.toFixed(2) %> €</div>
+          <div class="time"><%= tx.date %></div>
+        </li>
+      <% }) %>
+    </ul>
+    <div style="display:flex; justify-content:space-between;">
+      <a href="/balance" class="btn-back">Zurück</a>
+      <a href="/logout" class="btn-back nav-logout">Logout</a>
+    </div>
+  </div>
 </body>
 </html>
