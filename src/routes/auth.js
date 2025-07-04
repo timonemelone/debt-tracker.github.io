@@ -12,7 +12,7 @@ router.get('/logout', (req, res) => {
 router.get('/', (req, res) => res.redirect('/login'));
 
 router.get('/login', (req, res) => {
-  res.render('login', { error: null });
+  res.render('login', { title: 'Login', error: null });
 });
 
 router.post('/login', async (req, res) => {
