@@ -1,0 +1,24 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #FFFFFF;
+}
+
+h1, h2, h3 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.nav-link {
+  color: #264653;
+  text-decoration: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.25rem;
+  transition: background-color 0.2s, color 0.2s;
+  font-weight: 500;
+}
+
+.nav-link:hover {
+  background-color: #F1FAEE;
+  color: #2A9D8F;
+}
