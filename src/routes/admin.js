@@ -81,6 +81,7 @@ router.get('/transactions', requireAdmin, async (req, res) => {
 });
 
 // 2) Bearbeitungs-Formular anzeigen
+// Debug-GET für Transaktion bearbeiten
 router.get('/transactions/:id/edit', requireAdmin, async (req, res) => {
   try {
     const id = req.params.id;
@@ -88,11 +89,14 @@ router.get('/transactions/:id/edit', requireAdmin, async (req, res) => {
       'SELECT * FROM transactions WHERE id = $1',
       [id]
     );
+    if (rows.length === 0) {
+      return res.status(404).send(`<h1>404 – Nicht gefunden</h1>`);
+    }
     const tx = rows[0];
     const { rows: users } = await db.query(
       'SELECT id, vorname FROM users ORDER BY vorname'
     );
-    res.render('admin/edit-transaction', { tx, users, error: null });
+    return res.render('admin/edit-transaction', { tx, users, error: null });
   } catch (err) {
     console.error('Admin GET /transactions/:id/edit Error:', err);
     return res
@@ -101,37 +105,28 @@ router.get('/transactions/:id/edit', requireAdmin, async (req, res) => {
   }
 });
 
-// 3) Bearbeitung speichern
-router.post('/transactions/:id/edit', requireAdmin, async (req, res) => {
-  const id = req.params.id;
-  const { user_id, type, amount, date } = req.body;
 
+// 3) Bearbeitung speichern
+// Debug-POST für Transaktion speichern
+router.post('/transactions/:id/edit', requireAdmin, async (req, res) => {
   try {
-    // 1) Update durchführen
+    const id = req.params.id;
+    const { user_id, type, amount, date } = req.body;
     await db.query(
       `UPDATE transactions
-         SET user_id = $1,
-             type    = $2,
-             amount  = $3,
-             date    = $4
+         SET user_id = $1, type = $2, amount = $3, date = $4
        WHERE id = $5`,
       [user_id, type, amount, date, id]
     );
-    // 2) Zurück zur Liste
-    res.redirect('/admin/transactions');
+    return res.redirect('/admin/transactions');
   } catch (err) {
-    console.error('Edit-POST Error:', err);
-    // 3) Bei Fehlern das Formular nochmal zeigen
-    const usersRes = await db.query(
-      'SELECT id, vorname FROM users ORDER BY vorname'
-    );
-    res.render('admin/edit-transaction', {
-      tx: { id, user_id, type, amount, date },
-      users: usersRes.rows,
-      error: 'Fehler beim Speichern'
-    });
+    console.error('Admin POST /transactions/:id/edit Error:', err);
+    return res
+      .status(500)
+      .send(`<h1>500 – Edit-Save Error</h1><pre>${err.stack}</pre>`);
   }
 });
+
 
 // 4) Transaktion löschen
 router.post('/transactions/:id/delete', requireAdmin, (req, res) => {
