@@ -106,7 +106,6 @@ router.get('/transactions/:id/edit', requireAdmin, async (req, res) => {
 });
 
 
-// 3) Bearbeitung speichern
 // Debug-POST für Transaktion speichern
 router.post('/transactions/:id/edit', requireAdmin, async (req, res) => {
   try {
@@ -128,17 +127,20 @@ router.post('/transactions/:id/edit', requireAdmin, async (req, res) => {
 });
 
 
-// 4) Transaktion löschen
-router.post('/transactions/:id/delete', requireAdmin, (req, res) => {
-  const id = req.params.id;
-  db.run(
-    'DELETE FROM transactions WHERE id = ?',
-    [id],
-    (err) => {
-      if (err) console.error(err);
-      res.redirect('/admin/transactions');
-    }
-  );
+// Admin: Transaktion löschen mit async/await und db.query
+router.post('/transactions/:id/delete', requireAdmin, async (req, res) => {
+  try {
+    const id = req.params.id;
+    await db.query(
+      'DELETE FROM transactions WHERE id = $1',
+      [id]
+    );
+  } catch (err) {
+    console.error('Admin DELETE /transactions/:id Error:', err);
+  }
+  // egal ob Erfolg oder Fehler, zurück zur Liste
+  res.redirect('/admin/transactions');
 });
+
 
 module.exports = router;
