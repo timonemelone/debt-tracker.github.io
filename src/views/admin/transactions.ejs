@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="de">
 <%- include('../partials/head') %>
-<body class="bg-gray-50 text-gray-800">
+<body>
   <%- include('../partials/header') %>
-  <div class="max-w-2xl mx-auto mt-10 space-y-6">
-    <div class="flex justify-between">
-      <h1 class="text-xl font-semibold">Transaktionen verwalten</h1>
-      <a href="/admin/transactions/new" class="text-blue-600 underline">Neue Transaktion</a>
+  <div class="container" style="margin-top:40px; text-align:left;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+      <h1 class="h2">Transaktionen verwalten</h1>
+      <a href="/admin/transactions/new" class="nav-link">Neue Transaktion</a>
     </div>
-    <ul class="space-y-2">
+    <ul style="list-style:none; padding:0;">
       <% transactions.forEach(tx => { %>
-        <li class="flex items-center justify-between">
+        <li style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
           <div>
             <strong><%= tx.date %></strong> – <%= tx.vorname %> –
             <%= tx.type === 'debt' ? 'Schuld' : 'Tilgung' %>:
             <%= tx.amount.toFixed(2) %> €
           </div>
-          <div class="flex items-center space-x-2">
-            <a href="/admin/transactions/<%= tx.id %>/edit" class="text-blue-600 underline">Bearbeiten</a>
-            <form action="/admin/transactions/<%= tx.id %>/delete" method="post">
-              <button type="submit" onclick="return confirm('Wirklich löschen?')" class="text-red-600 hover:text-red-800">
+          <div style="display:flex; gap:8px;">
+            <a href="/admin/transactions/<%= tx.id %>/edit" class="nav-link">Bearbeiten</a>
+            <form action="/admin/transactions/<%= tx.id %>/delete" method="post" style="display:inline;">
+              <button type="submit" onclick="return confirm('Wirklich löschen?')" class="nav-link nav-logout" style="border:none;">
                 Löschen
               </button>
             </form>
@@ -27,7 +27,7 @@
         </li>
       <% }) %>
     </ul>
-    <a href="/admin/logout" class="block text-center text-blue-600 underline">Logout</a>
+    <a href="/admin/logout" class="btn-back nav-logout" style="width:100%;">Logout</a>
   </div>
 </body>
 </html>

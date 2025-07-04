@@ -1,25 +1,23 @@
 <!DOCTYPE html>
 <html lang="de">
 <%- include('partials/head') %>
-<body class="bg-gray-50 text-gray-800">
+<body>
   <%- include('partials/header') %>
-  <div class="max-w-md mx-auto mt-10 space-y-6">
+  <div class="container" style="margin-top:40px;">
     <% if (typeof error !== 'undefined' && error) { %>
-      <p class="text-center text-red-600"><%= error %></p>
+      <p style="color:#E63946;"><%= error %></p>
     <% } %>
-    <ul class="space-y-4">
+    <ul style="list-style:none; padding:0;">
       <% transactions.forEach(tx => { %>
-        <li class="rounded p-4 shadow <%= tx.type==='debt'?'bg-red-50':'bg-green-50' %>">
-          <div class="text-2xl font-bold <%= tx.type==='debt'?'text-red-600':'text-green-600' %>">
-            <%= tx.type==='debt'?'-':'+' %><%= tx.amount.toFixed(2) %> €
-          </div>
-          <div class="text-sm text-gray-600"><%= tx.date %></div>
+        <li class="tx <%= tx.type==='debt'?'debt':'repayment' %>">
+          <div class="amount"><%= tx.type==='debt'?'-':'+' %><%= tx.amount.toFixed(2) %> €</div>
+          <div class="time"><%= tx.date %></div>
         </li>
       <% }) %>
     </ul>
-    <div class="mt-6 flex justify-between">
-      <a href="/balance" class="nav-link flex-1 text-center">Zurück</a>
-      <a href="/logout" class="nav-link flex-1 text-center text-red-600 hover:text-red-800">Logout</a>
+    <div style="display:flex; justify-content:space-between;">
+      <a href="/balance" class="btn-back">Zurück</a>
+      <a href="/logout" class="btn-back nav-logout">Logout</a>
     </div>
   </div>
 </body>

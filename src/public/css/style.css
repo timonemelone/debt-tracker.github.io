@@ -1,6 +1,8 @@
 body {
   font-family: 'Roboto', sans-serif;
   background-color: #FFFFFF;
+  color: #264653;
+  margin: 0;
 }
 
 h1, h2, h3 {
@@ -9,11 +11,25 @@ h1, h2, h3 {
   line-height: 1.2;
 }
 
+nav {
+  background-color: #FFFFFF;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 24px;
+}
+
+.nav-inner {
+  width: 400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .nav-link {
   color: #264653;
   text-decoration: none;
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.25rem;
+  padding: 8px 12px;
+  border-radius: 4px;
   transition: background-color 0.2s, color 0.2s;
   font-weight: 500;
 }
@@ -21,4 +37,128 @@ h1, h2, h3 {
 .nav-link:hover {
   background-color: #F1FAEE;
   color: #2A9D8F;
+}
+
+.container {
+  width: 400px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.form-box {
+  background: #FFFFFF;
+  padding: 20px;
+  margin-top: 60px;
+  border-radius: 4px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-box input {
+  width: 100%;
+  padding: 12px;
+  font-size: 1.2rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+.form-box button {
+  width: 100%;
+  padding: 12px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 4px;
+  color: #FFFFFF;
+  background-color: #2A9D8F;
+  cursor: pointer;
+}
+
+.form-box button:hover {
+  background-color: #23897d;
+}
+
+.form-input,
+.form-select {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+.form-button {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  color: #FFFFFF;
+  background-color: #2A9D8F;
+  cursor: pointer;
+}
+
+.form-button:hover {
+  background-color: #23897d;
+}
+
+.tx {
+  padding: 16px;
+  margin-bottom: 12px;
+  border-radius: 4px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.tx.debt {
+  background-color: #ffe5e7;
+}
+
+.tx.repayment {
+  background-color: #e0f5f2;
+}
+
+.tx .amount {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.tx.debt .amount {
+  color: #E63946;
+}
+
+.tx.repayment .amount {
+  color: #2A9D8F;
+}
+
+.tx .time {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.btn-back {
+  display: inline-block;
+  width: 45%;
+  padding: 10px;
+  margin-top: 20px;
+  text-align: center;
+  text-decoration: none;
+  color: #264653;
+  border-radius: 4px;
+  background-color: #F1FAEE;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.btn-back:hover {
+  background-color: #e7f2ee;
+  color: #2A9D8F;
+}
+
+.nav-logout {
+  color: #E63946;
+}
+
+.nav-logout:hover {
+  background-color: #E63946;
+  color: #FFFFFF;
 }

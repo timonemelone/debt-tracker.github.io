@@ -1,30 +1,27 @@
 <!DOCTYPE html>
 <html lang="de">
 <%- include('../partials/head') %>
-<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+<body>
   <%- include('../partials/header') %>
-  <div class="flex-grow flex justify-center mt-20">
-    <div class="w-full max-w-md bg-white p-8 rounded shadow">
+  <div class="container">
+    <div class="form-box">
       <% if (error) { %>
-        <p class="mb-4 text-center text-red-600"><%= error %></p>
+        <p class="mb-4" style="color:#E63946;"><%= error %></p>
       <% } %>
-      <form action="/admin/login" method="post" class="space-y-4">
+      <form action="/admin/login" method="post">
         <input
           name="username"
           placeholder="Admin-Benutzer"
           required
-          class="w-full rounded border border-gray-300 p-3 text-lg"
         />
         <input
           name="password"
           type="password"
           placeholder="Passwort"
           required
-          class="w-full rounded border border-gray-300 p-3 text-lg"
         />
         <button
           type="submit"
-          class="w-full rounded bg-blue-500 p-3 text-lg text-white hover:bg-blue-600"
         >
           Login
         </button>
