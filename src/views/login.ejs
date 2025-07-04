@@ -1,34 +1,36 @@
 <!DOCTYPE html>
 <html lang="de">
 <%- include('partials/head') %>
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
   <%- include('partials/header') %>
-  <div class="max-w-sm mx-auto mt-10 bg-white p-6 rounded shadow">
-    <% if (error) { %>
-      <p class="mb-4 text-center text-red-600"><%= error %></p>
-    <% } %>
-    <form action="/login" method="post" class="space-y-4">
-      <input
-        name="vorname"
-        placeholder="Vorname"
-        required
-        class="w-full rounded border border-gray-300 p-2"
-      />
-      <input
-        name="pin"
-        type="password"
-        placeholder="4-stelliger PIN"
-        required
-        maxlength="4"
-        class="w-full rounded border border-gray-300 p-2"
-      />
-      <button
-        type="submit"
-        class="w-full rounded bg-blue-500 p-2 text-white hover:bg-blue-600"
-      >
-        Einloggen
-      </button>
-    </form>
+  <div class="flex-grow flex items-center justify-center">
+    <div class="w-full max-w-md bg-white p-8 rounded shadow">
+      <% if (error) { %>
+        <p class="mb-4 text-center text-red-600"><%= error %></p>
+      <% } %>
+      <form action="/login" method="post" class="space-y-4">
+        <input
+          name="vorname"
+          placeholder="Vorname"
+          required
+          class="w-full rounded border border-gray-300 p-3 text-lg"
+        />
+        <input
+          name="pin"
+          type="password"
+          placeholder="4-stelliger PIN"
+          required
+          maxlength="4"
+          class="w-full rounded border border-gray-300 p-3 text-lg"
+        />
+        <button
+          type="submit"
+          class="w-full rounded bg-blue-500 p-3 text-lg text-white hover:bg-blue-600"
+        >
+          Einloggen
+        </button>
+      </form>
+    </div>
   </div>
 </body>
 </html>

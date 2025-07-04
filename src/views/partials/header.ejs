@@ -1,31 +1,19 @@
 <nav class="bg-white shadow p-4 mb-6">
-  <div class="max-w-2xl mx-auto flex flex-wrap justify-center space-x-4">
-    <!-- Home -->
-    <a href="/" class="hover:underline">
-      Home
+  <div class="max-w-3xl mx-auto flex flex-wrap items-center justify-between gap-4">
+    <a href="/" class="flex items-center" style="min-width:120px;">
+      <img src="/img/logo.svg" alt="Debt Tracker" class="mr-2" />
     </a>
-
-    <!-- Transaktionen -->
-    <a href="/transactions" class="hover:underline">
-      Transaktionen
-    </a>
-
-    <!-- Admin: je nach eingeloggtem Status zur Übersicht oder zum Login -->
-    <% if (admin) { %>
-      <a href="/admin/transactions" class="hover:underline">
-        Admin
-      </a>
-    <% } else { %>
-      <a href="/admin/login" class="hover:underline">
-        Admin
-      </a>
-    <% } %>
-
-    <!-- Logout nur anzeigen, wenn jemand eingeloggt ist -->
-    <% if (userVorname || admin) { %>
-      <a href="/logout" class="text-red-600 hover:text-red-800">
-        Logout
-      </a>
-    <% } %>
+    <div class="flex flex-wrap items-center gap-4">
+      <a href="/" class="nav-link">Home</a>
+      <a href="/transactions" class="nav-link">Transaktionen</a>
+      <% if (admin) { %>
+        <a href="/admin/transactions" class="nav-link">Admin</a>
+      <% } else { %>
+        <a href="/admin/login" class="nav-link">Admin</a>
+      <% } %>
+      <% if (userVorname || admin) { %>
+        <a href="/logout" class="nav-link text-red-600 hover:text-red-800">Logout</a>
+      <% } %>
+    </div>
   </div>
 </nav>
