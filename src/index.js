@@ -13,7 +13,6 @@ const app = express();
 
 // View-Engine & Static
 app.set('view engine', 'ejs');
-const path = require('path');
 app.set('views', path.join(__dirname, 'views'));
 app.locals.basedir = app.get('views');
 app.use(express.urlencoded({ extended: true }));
