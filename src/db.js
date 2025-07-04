@@ -32,21 +32,31 @@ const pool = new Pool({
 
     console.log('✅ PostgreSQL tables ready');
 
-    // 2) Seed für Emily NACHDEM die Tabellen stehen
-    const DEFAULT_PIN = process.env.DEFAULT_PIN || '1234';
-    const res = await pool.query(
-      `SELECT id FROM users WHERE vorname = $1`,
-      ['Emily']
-    );
-    if (res.rows.length === 0) {
-      const hash = await bcrypt.hash(DEFAULT_PIN, 10);
-      await pool.query(
-        `INSERT INTO users (vorname, pin_hash) VALUES ($1, $2)`,
-        ['Emily', hash]
-      );
-      console.log(`✅ Seed: Emily angelegt (PIN=${DEFAULT_PIN})`);
-    } else {
-      console.log('✅ Seed: Emily existiert bereits');
+    // 2) Seed users from environment variable
+    const rawUsers = process.env.USERS_JSON;
+    if (rawUsers) {
+      let users;
+      try {
+        users = JSON.parse(rawUsers);
+      } catch (err) {
+        console.error('USERS_JSON parse error:', err);
+        users = [];
+      }
+      for (const { vorname, pin_hash } of users) {
+        const { rows } = await pool.query(
+          `SELECT id FROM users WHERE vorname = $1`,
+          [vorname]
+        );
+        if (rows.length === 0) {
+          await pool.query(
+            `INSERT INTO users (vorname, pin_hash) VALUES ($1, $2)`,
+            [vorname, pin_hash]
+          );
+          console.log(`✅ Seed: ${vorname} angelegt (Hash aus ENV)`);
+        } else {
+          console.log(`✅ Seed: ${vorname} existiert bereits`);
+        }
+      }
     }
 
   } catch (err) {
