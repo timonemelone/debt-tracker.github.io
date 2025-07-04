@@ -20,7 +20,7 @@ router.get('/', ensureLoggedIn, async (req, res) => {
       type:   tx.type,
       amount: parseFloat(tx.amount)
     }));
-    res.render('transactions', { transactions, error: null });
+    res.render('transactions', { title: 'Login', transactions, error: null });
   } catch (err) {
     console.error('Error loading transactions:', err);
     // Zeige den kompletten Stack im Browser an:

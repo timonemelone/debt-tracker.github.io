@@ -20,7 +20,7 @@ router.post('/login', (req, res) => {
     req.session.admin = true;
     return res.redirect('/admin/transactions/new');
   }
-  res.render('admin/login', { error: 'Ungültige Zugangsdaten' });
+  res.render('admin/login', { title: 'Login', error: 'Ungültige Zugangsdaten' });
 });
 
 // Formular für neue Transaktion (neu)
@@ -32,10 +32,10 @@ router.get('/transactions/new', requireAdmin, async (req, res) => {
       []
     );
     // 2) Rendern
-    res.render('admin/new-transaction', { users, error: null });
+    res.render('admin/new-transaction', { title: 'Login', users, error: null });
   } catch (err) {
     console.error('Fehler beim Laden des New-Transaction-Formulars:', err);
-    res.render('admin/new-transaction', { users: [], error: 'Datenbankfehler' });
+    res.render('admin/new-transaction', { title: 'Login', users: [], error: 'Datenbankfehler' });
   }
 });
 
@@ -51,7 +51,7 @@ router.post('/transactions/new', requireAdmin, async (req, res) => {
   } catch (err) {
     console.error(err);
     const { rows: users } = await db.query('SELECT id, vorname FROM users');
-    res.render('admin/new-transaction', { users, error: 'Speicher-Fehler' });
+    res.render('admin/new-transaction', { title: 'Login', users, error: 'Speicher-Fehler' });
   }
 });
 
@@ -72,7 +72,7 @@ router.get('/transactions', requireAdmin, async (req, res) => {
       vorname: tx.vorname,
       amount:  parseFloat(tx.amount)
     }));
-    res.render('admin/transactions', { transactions, error: null });
+    res.render('admin/transactions', { title: 'Login', transactions, error: null });
   } catch (err) {
     console.error('Admin GET /transactions Error:', err);
     // Zeige den Stack direkt im Browser:
@@ -96,7 +96,7 @@ router.get('/transactions/:id/edit', requireAdmin, async (req, res) => {
     const { rows: users } = await db.query(
       'SELECT id, vorname FROM users ORDER BY vorname'
     );
-    return res.render('admin/edit-transaction', { tx, users, error: null });
+    return res.render('admin/edit-transaction', { title: 'Login', tx, users, error: null });
   } catch (err) {
     console.error('Admin GET /transactions/:id/edit Error:', err);
     return res
