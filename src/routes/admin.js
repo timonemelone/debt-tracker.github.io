@@ -8,7 +8,7 @@ function requireAdmin(req, res, next) {
 }
 
 router.get('/login', (req, res) => {
-  res.render('admin/login', { error: null });
+  res.render('admin/login', { title: 'Login', error: null });
 });
 
 router.post('/login', (req, res) => {
