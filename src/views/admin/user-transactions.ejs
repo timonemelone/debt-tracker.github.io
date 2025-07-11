@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="de">
+<%- include('../partials/head') %>
+<body>
+  <%- include('../partials/header') %>
+  <div class="container" style="margin-top:40px;">
+    <h1 class="h2" style="margin-bottom:20px;">Transaktionen von <%= user.vorname %></h1>
+    <ul style="list-style:none; padding:0;">
+      <% transactions.forEach(tx => { %>
+        <li class="tx <%= tx.type==='debt'?'debt':'repayment' %>" style="display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div class="amount"><%= tx.type==='debt'?'-':'+' %><%= tx.amount.toFixed(2) %> \u20ac</div>
+            <div class="time"><%= tx.date %></div>
+          </div>
+          <a href="/admin/transactions/<%= tx.id %>/edit?user=<%= user.id %>" class="nav-link" style="font-size:0.875rem;">Bearbeiten</a>
+        </li>
+      <% }) %>
+    </ul>
+    <div style="display:flex; justify-content:space-between; margin-top:20px;">
+      <a href="/admin/users/<%= user.id %>/transactions/new" class="nav-link">Neue Transaktion</a>
+      <a href="/admin" class="btn-back">Zur\u00fcck</a>
+    </div>
+  </div>
+</body>
+</html>
