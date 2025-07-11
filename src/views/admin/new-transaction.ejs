@@ -7,10 +7,10 @@
     <% if (error) { %>
       <p class="mb-4" style="color:#E63946;"><%= error %></p>
     <% } %>
-    <form action="/admin/transactions/new" method="post">
+    <form action="<%= formAction %>" method="post">
       <select name="user_id" required class="form-select">
         <% users.forEach(u => { %>
-          <option value="<%= u.id %>"><%= u.vorname %></option>
+          <option value="<%= u.id %>" <%= selectedUserId==u.id?'selected':'' %>><%= u.vorname %></option>
         <% }) %>
       </select>
       <div style="display:flex; gap:20px; justify-content:center;">
